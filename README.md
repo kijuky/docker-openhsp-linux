@@ -16,7 +16,7 @@ docker build -t hsp:3.6
 
 ```shell
 echo 'mes "hello world"' >> test.hsp
-docker run --rm -it -v "$(pwd):/root" -w /root hsp:3.6 hspcmp -d -i -u test.hsp
+docker run --rm -it -v "$(pwd):/hsp3.6" hsp:3.6 hspcmp -d -i -u test.hsp
 ```
 
 カレントディレクトリに `test.ax` ができていれば成功。
@@ -26,7 +26,7 @@ docker run --rm -it -v "$(pwd):/root" -w /root hsp:3.6 hspcmp -d -i -u test.hsp
 作られた `test.ax` を `hsp3cl` ランタイムに読み込ませる。
 
 ```shell
-docker run --rm -it -v "$(pwd):/root" -w /root hsp:3.6 hsp3cl test.ax
+docker run --rm -it -v "$(pwd):/hsp3.6" hsp:3.6 hsp3cl test.ax
 ```
 
 ### GUI
@@ -52,9 +52,7 @@ macOS を再起動
 
 ```shell
 xhost +
-mkdir -p .local/share
-docker run --rm -it -v "$(pwd):/root" -w /root -e DISPLAY=host.docker.internal:0 --ipc=host hsp:3.6
-rm -r .local
+docker run --rm -it -v "$(pwd):/hsp3.6" -e DISPLAY=host.docker.internal:0 --ipc=host hsp:3.6
 xhost -
 ```
 

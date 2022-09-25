@@ -1,5 +1,9 @@
 FROM ubuntu:22.04
 
+# 環境変数
+ARG HSP_VERSION
+ENV HSP_VERSION ${HSP_VERSION:-3.6}
+
 # 必要なソフトをインストール
 RUN apt update && apt install -y \
     curl \
@@ -17,19 +21,24 @@ RUN apt update && apt install -y \
     && apt clean && rm -rf /var/lib/apt/lists/*
 
 # ソースコードをコンパイル
-RUN curl -L https://github.com/onitama/OpenHSP/archive/refs/tags/v3.6.tar.gz | tar zx -C .
-WORKDIR "OpenHSP-3.6"
-RUN make
-
-ENV LIBGL_ALWAYS_INDIRECT 1
+RUN curl -L https://github.com/onitama/OpenHSP/archive/refs/tags/v$HSP_VERSION.tar.gz | tar zx -C .
+RUN make -C OpenHSP-$HSP_VERSION
 
 # /usr/bin にシンボリックリンクを作成
 RUN cd /usr/bin; \
-    ln -s /OpenHSP-3.6/hsed hsed && \
-    ln -s /OpenHSP-3.6/hsp3cl hsp3cl && \
-    ln -s /OpenHSP-3.6/hsp3dish hsp3dish && \
-    ln -s /OpenHSP-3.6/hsp3gp hsp3gp && \
-    ln -s /OpenHSP-3.6/hspcmp hspcmp
+    ln -s /OpenHSP-$HSP_VERSION/hsed hsed && \
+    ln -s /OpenHSP-$HSP_VERSION/hsp3cl hsp3cl && \
+    ln -s /OpenHSP-$HSP_VERSION/hsp3dish hsp3dish && \
+    ln -s /OpenHSP-$HSP_VERSION/hsp3gp hsp3gp && \
+    ln -s /OpenHSP-$HSP_VERSION/hspcmp hspcmp
+
+# X Window System に対する設定
+ENV LIBGL_ALWAYS_INDIRECT 1
+RUN mkdir -p ~/.local/share
+
+# 作業ディレクトリの作成（ホームディレクトリはX Window System の設定ファイルが作成されるので、別の場所を指定する）
+RUN mkdir -p /hsp$HSP_VERSION
+WORKDIR /hsp$HSP_VERSION
 
 # デフォルトはエディタを起動
 CMD ["hsed"]
