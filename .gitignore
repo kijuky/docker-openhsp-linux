@@ -1,0 +1,15 @@
+# Created by https://www.toptal.com/developers/gitignore/api/hsp
+# Edit at https://www.toptal.com/developers/gitignore?templates=hsp
+
+### HSP ###
+# Object files
+hsptmp*
+packfile
+obj
+*.ax
+
+# Binaries
+*.exe
+*.dpm
+
+# End of https://www.toptal.com/developers/gitignore/api/hsp

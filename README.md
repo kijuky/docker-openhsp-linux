@@ -3,7 +3,7 @@
 ## build
 
 ```shell
-docker build -t hsp:3.6
+docker build . -t hsp:3.6
 ```
 
 ## usage
@@ -59,3 +59,18 @@ xhost -
 ```
 
 X Window System でエラーが出る場合、macOSを再起動すると解消することがある。
+
+## publish
+
+### GitHub Packages
+
+writes:packages ができる[アクセストークンを発行](https://github.com/settings/tokens/new)する。
+
+```shell
+export GITHUB_TOKEN=アクセストークン
+docker tag hsp:3.6 ghcr.io/kiuky/hsp:3.6
+echo $GITHUB_TOKEN | docker login ghcr.io -u kijuky --password-stdin
+docker push ghcr.io/kijuky/hsp:3.6                            
+```
+
+[パッケージ設定](https://github.com/kijuky?tab=packages)を開き、イメージを公開設定にし、パッケージとリポジトリを関連づける。
