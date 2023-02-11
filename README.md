@@ -1,12 +1,33 @@
 # docker-openhsp-linux
 
-## build
+[Linux向けOpenHSP](https://github.com/onitama/OpenHSP)をmacOSで使う。
+
+## 事前準備
+
+dockerをインストール。
+
+https://www.docker.com/get-started/
+
+## イメージの用意
+
+### pull
+
+ビルド済みイメージを利用する場合。
+
+```shell
+docker pull ghcr.io/kijuky/hsp:3.6
+docker tag ghcr.io/kiuky/hsp:3.6 hsp:3.6 # optional
+```
+
+### build
+
+自分でイメージをビルドする場合。
 
 ```shell
 docker build . -t hsp:3.6
 ```
 
-## usage
+## 使用方法
 
 ### CUI
 
@@ -19,11 +40,11 @@ echo 'mes "hello world"' >> test.hsp
 docker run --rm -it -v "$(pwd):/hsp3.6" hsp:3.6 hspcmp -d -i -u test.hsp
 ```
 
-カレントディレクトリに `test.ax` ができていれば成功。
+カレントディレクトリに`test.ax`ができていれば成功。
 
 #### run
 
-作られた `test.ax` を `hsp3cl` ランタイムに読み込ませる。
+作られた`test.ax`を`hsp3cl`ランタイムに読み込ませる。
 
 ```shell
 docker run --rm -it -v "$(pwd):/hsp3.6" hsp:3.6 hsp3cl test.ax
@@ -33,7 +54,7 @@ docker run --rm -it -v "$(pwd):/hsp3.6" hsp:3.6 hsp3cl test.ax
 
 #### install
 
-X Window System をインストールする。
+X Window Systemをインストールする。
 
 ```shell
 brew install xquartz
@@ -48,7 +69,7 @@ startx
 defaults write org.xquartz.X11 enable_iglx -bool true
 ```
 
-macOS を再起動
+macOSを再起動。
 
 #### run
 
@@ -58,13 +79,13 @@ docker run --rm -it -v "$(pwd):/hsp3.6" -e DISPLAY=host.docker.internal:0 --ipc=
 xhost -
 ```
 
-X Window System でエラーが出る場合、macOSを再起動すると解消することがある。
+X Window Systemでエラーが出る場合、macOSを再起動すると解消することがある。
 
-## publish
+## (開発者向け)イメージの公開方法
 
 ### GitHub Packages
 
-writes:packages ができる[アクセストークンを発行](https://github.com/settings/tokens/new)する。
+writes:packagesができる[アクセストークンを発行](https://github.com/settings/tokens/new)する。
 
 ```shell
 export GITHUB_TOKEN=アクセストークン
