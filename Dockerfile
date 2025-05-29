@@ -1,23 +1,24 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 # 環境変数
 ARG HSP_VERSION
-ENV HSP_VERSION ${HSP_VERSION:-3.6}
+ENV HSP_VERSION=${HSP_VERSION:-3.7beta10}
 
 # 必要なソフトをインストール
 RUN apt update && apt install -y \
     curl \
     libgtk2.0-dev \
     libglew-dev \
-    libsdl1.2-dev \
-    libsdl-image1.2-dev \
-    libsdl-mixer1.2-dev \
-    libsdl-ttf2.0-dev \
-    libgles2-mesa-dev \
-    libegl1-mesa-dev \
-    libsdl2-ttf-dev \
+    libsdl2-dev \
     libsdl2-image-dev \
     libsdl2-mixer-dev \
+    libsdl2-ttf-dev \
+    libgles2-mesa-dev \
+    libegl1-mesa-dev \
+    libcurl4-openssl-dev \
+    libgpiod2 \
+    libgpiod-dev \
+    libffi-dev \
     && apt clean && rm -rf /var/lib/apt/lists/*
 
 # ソースコードをコンパイル
@@ -33,7 +34,7 @@ RUN cd /usr/bin; \
     ln -s /OpenHSP-$HSP_VERSION/hspcmp hspcmp
 
 # X Window System に対する設定
-ENV LIBGL_ALWAYS_INDIRECT 1
+ENV LIBGL_ALWAYS_INDIRECT=1
 RUN mkdir -p ~/.local/share
 
 # 作業ディレクトリの作成（ホームディレクトリはX Window System の設定ファイルが作成されるので、別の場所を指定する）
