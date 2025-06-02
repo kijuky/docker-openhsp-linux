@@ -75,7 +75,7 @@ macOSを再起動。
 
 ```shell
 xhost +
-docker run --rm -it -v "$(pwd):/hsp3.6" -e DISPLAY=host.docker.internal:0 --ipc=host hsp:3.7beta10
+docker run --rm -it -v "$(pwd):/hsp3.7beta10" -e DISPLAY=host.docker.internal:0 --ipc=host hsp:3.7beta10
 xhost -
 ```
 
@@ -89,9 +89,8 @@ writes:packagesができる[アクセストークンを発行](https://github.co
 
 ```shell
 export GITHUB_TOKEN=アクセストークン
-docker tag hsp:3.7beta10 ghcr.io/kiuky/hsp:3.7beta10
 echo $GITHUB_TOKEN | docker login ghcr.io -u kijuky --password-stdin
-docker push ghcr.io/kijuky/hsp:3.7beta10
+docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/kijuky/hsp:3.7beta10 --push .
 ```
 
 [パッケージ設定](https://github.com/kijuky?tab=packages)を開き、イメージを公開設定にし、パッケージとリポジトリを関連づける。
