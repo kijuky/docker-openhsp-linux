@@ -18,8 +18,6 @@ RUN yum groupinstall -y "Development Tools" && \
     mesa-libGLES-devel \
     mesa-libEGL-devel \
     libcurl-devel \
-    libgpiod \
-    libgpiod-devel \
     libffi-devel \
     && yum clean all
 
