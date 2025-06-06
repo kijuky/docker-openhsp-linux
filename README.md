@@ -24,7 +24,7 @@ docker tag ghcr.io/kiuky/hsp:3.7beta10 hsp:3.7beta10 # optional
 自分でイメージをビルドする場合。
 
 ```shell
-docker build . -t hsp:3.7beta10
+docker build -t hsp:3.7beta10 ubuntu/.
 ```
 
 ## 使用方法
@@ -90,7 +90,7 @@ writes:packagesができる[アクセストークンを発行](https://github.co
 ```shell
 export GITHUB_TOKEN=アクセストークン
 echo $GITHUB_TOKEN | docker login ghcr.io -u kijuky --password-stdin
-docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/kijuky/hsp:3.7beta10 --push .
+docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/kijuky/hsp:3.7beta10 --push ubuntu/.
 ```
 
 [パッケージ設定](https://github.com/kijuky?tab=packages)を開き、イメージを公開設定にし、パッケージとリポジトリを関連づける。

@@ -1,0 +1,24 @@
+#!/bin/sh
+set -e
+
+HSP_OBJECT_FILE="$_HANDLER"
+
+RUNTIME_URL="http://${AWS_LAMBDA_RUNTIME_API}/2018-06-01"
+
+post() {
+    request_id="$1"
+    response="$2"
+    url="${RUNTIME_URL}/runtime/invocation/${request_id}/response"
+    #echo post url: "${url}"
+    #echo response: "${response}"
+    curl -X POST "${url}" -d "${response}"
+}
+
+while true
+do
+    HEADERS="$(mktemp)"
+    EVENT_DATA=$(curl -sS -LD "${HEADERS}" -X GET "${RUNTIME_URL}/runtime/invocation/next")
+    RESPONSE=$(echo "${EVENT_DATA}" | hsp3cl "${HSP_OBJECT_FILE}" | tr -d '\r')
+    REQUEST_ID=$(grep -Fi Lambda-Runtime-Aws-Request-Id "${HEADERS}" | tr -d '[:space:]' | cut -d: -f2)
+    post "${REQUEST_ID}" "${RESPONSE}"
+done
