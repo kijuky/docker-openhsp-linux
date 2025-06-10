@@ -9,14 +9,6 @@ RUN yum groupinstall -y "Development Tools" && \
     amazon-linux-extras enable epel && \
     yum install -y epel-release && \
     yum install -y \
-    gtk2-devel \
-    glew-devel \
-    SDL2-devel \
-    SDL2_image-devel \
-    SDL2_mixer-devel \
-    SDL2_ttf-devel \
-    mesa-libGLES-devel \
-    mesa-libEGL-devel \
     libcurl-devel \
     libffi-devel \
     && yum clean all

@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-HSP_OBJECT_FILE="$_HANDLER"
+export HOME="${LAMBDA_TASK_ROOT}"
+HSP_OBJECT_FILE="${_HANDLER}"
 
 RUNTIME_URL="http://${AWS_LAMBDA_RUNTIME_API}/2018-06-01"
 
@@ -9,7 +10,7 @@ post() {
     request_id="$1"
     response="$2"
     url="${RUNTIME_URL}/runtime/invocation/${request_id}/response"
-    curl -X POST "${url}" -d "${response}"
+    curl -sS -X POST "${url}" -d "${response}"
 }
 
 while true
