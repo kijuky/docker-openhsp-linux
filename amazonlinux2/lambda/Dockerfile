@@ -6,8 +6,6 @@ ENV HSP_VERSION=${HSP_VERSION:-3.7beta10}
 
 # 必要なソフトをインストール
 RUN yum groupinstall -y "Development Tools" && \
-    amazon-linux-extras enable epel && \
-    yum install -y epel-release && \
     yum install -y \
     libcurl-devel \
     libffi-devel \
